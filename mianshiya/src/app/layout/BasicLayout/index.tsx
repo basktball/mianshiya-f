@@ -18,6 +18,8 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import { menus } from '../../../../config/meun'
 import { listQuestionBankByPageUsingPost } from '@/api/questionBankController'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/stores'
 
 const SearchInput = () => {
   const { token } = theme.useToken()
@@ -60,6 +62,9 @@ interface Props {
 
 export default function BasicLayout({ children }: Props) {
   const pathname = usePathname()
+
+  const loginUser = useSelector((state: RootState) => state.loginUser)
+
   return (
     <div
       id="test-pro-layout"
@@ -93,9 +98,9 @@ export default function BasicLayout({ children }: Props) {
           collapsedShowGroupTitle: true,
         }}
         avatarProps={{
-          src: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
+          src: loginUser.userAvatar || '/assets/not-login-avatar.png',
           size: 'small',
-          title: 'xhx',
+          title: loginUser.userName,
           render: (props, dom) => {
             return (
               <Dropdown
